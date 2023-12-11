@@ -10,6 +10,7 @@ class WebController {
     @GetMapping("/")
     fun showLogin() = "login"
 
+
     @GetMapping("/top")
     fun showTop() = "top"
 

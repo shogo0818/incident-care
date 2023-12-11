@@ -1,10 +1,22 @@
-<!DOCTYPE html>
 <html>
 <head>
     <title>Login</title>
 </head>
 <body>
-<h1>Login Page</h1>
-<!-- Login form here -->
+<h2>Login</h2>
+<!-- Login form -->
+<form action="/api/login" method="post">
+    <label>Email:</label>
+    <input type="email" name="email" required>
+    <label>Password:</label>
+    <input type="password" name="password" required>
+    <button type="submit">Login</button>
+</form>
+
+<!-- Forgot Password button -->
+<form action="/reset-password" method="get">
+    <button type="submit">Forgot Password</button>
+</form>
+<a href="/register">登録</a>
 </body>
 </html>
