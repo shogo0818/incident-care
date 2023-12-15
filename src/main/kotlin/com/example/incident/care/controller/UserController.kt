@@ -1,41 +1,54 @@
 package com.example.incident.care.controller
 
+import org.springframework.mail.SimpleMailMessage
+import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.stereotype.Controller
-import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
+import java.util.*
 
 @Controller
-class UserController {
+@RequestMapping("/register")
+class UserController(private val emailSender: JavaMailSender) {
 
-    // Shows the registration form where the user can enter their email
-    @GetMapping("/register")
+    @GetMapping
     fun showRegistrationForm(): String {
         return "register"
     }
 
-    // 提供された電子メールにリンクを送信して登録を処理します
-    @PostMapping("/register")
+    @PostMapping
     fun processRegistration(@RequestParam email: String): String {
-        // Add logic to send a registration link to the email
+        val token = UUID.randomUUID().toString() // Example token generation
+        val resetLink = "http://yourdomain.com/set-new-password?token=$token" // Construct reset link
+
+        val emailBody = getEmailContent(resetLink)
+        sendTextEmail(email, "Welcome to our application!", emailBody)
+
         return "login"
     }
 
-    // メールリンクをクリックすると、登録（パスワード設定）を完了するためのフォームが表示されます
-    @GetMapping("/complete-registration")
-    fun showCompleteRegistrationForm(@RequestParam("token") token: String, model: Model): String {
-        model.addAttribute("token", token)
-        return "complete-registration"
+    private fun sendTextEmail(to: String, subject: String, text: String) {
+        val message = SimpleMailMessage()
+        message.setTo(to)
+        message.setSubject(subject)
+        message.setText(text)
+        emailSender.send(message)
     }
 
-    // ユーザーがパスワードを設定する登録の最終段階を処理します。
-    @PostMapping("/complete-registration")
-    fun completeRegistration(@RequestParam password: String,
-                             @RequestParam confirmPassword: String,
-                             @RequestParam token: String): String {
-        // Add logic to verify the token and set the new password
-        return "login" // Redirect to the login page
+    private fun getEmailContent(resetLink: String): String {
+        return """
+            Hello,
+
+            Thank you for registering with us. To complete your registration, please set your password by following the link below:
+
+            $resetLink
+
+            If you did not register for our service, please ignore this email.
+
+            Best regards,
+            The [Your Service] Team
+        """.trimIndent()
     }
-
-    // ... Other methods ...
-
 }

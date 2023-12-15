@@ -1,13 +1,14 @@
 spring:
-  mode: HTML
-  enabled: true
-  cache: false
-  encoding: UTF-8
-　mail:
-    host: smtp.example.com
+  thymeleaf:
+    mode: HTML
+    cache: false
+    encoding: UTF-8
+
+  mail:
+    host: smtp.mailtrap.io
     port: 587
-    username: your-email@example.com
-    password: your-email-password
+    username: 3c658ddfdd92a5
+    password: f6827ac165ef12
     properties:
       mail:
         smtp:

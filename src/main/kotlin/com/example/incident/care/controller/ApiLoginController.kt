@@ -10,7 +10,8 @@ class ApiLoginController {
     private val mockUsers = listOf(
         LoginData(email = "tanaka@example.com", password = "password123"),
         LoginData(email = "nakamura@example.com", password = "password456"),
-        LoginData(email = "kuniyoshi@example.com", password = "password789")
+        LoginData(email = "kuniyoshi@example.com", password = "password789"),
+        LoginData(email = "kuniyoshiiiiii@example.com", password = "password7899999"),
     )
 
     @PostMapping("/login")
